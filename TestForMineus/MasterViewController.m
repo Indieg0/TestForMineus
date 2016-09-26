@@ -34,11 +34,9 @@
     News *news = [News new];
     self.news = [news loadCustomObjectWithKey:@"newsArray"];
     
-    [self spotlightSearch];
+    
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 }
-
-
 
 - (void) configureUI {
     self.navigationController.navigationBar.barTintColor = BITTERSWEET_SHIMMER_COLOR;
@@ -103,12 +101,13 @@
                     [self.news addObject:news];
                 }
                 [news saveCustomObject:self.news key:@"newsArray"];
+                [self spotlightSearch];
             } else {
                 self.news = [news loadCustomObjectWithKey:@"newsArray"];
             }
             
            [self performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-            //[self performSelector:@selector(reloadData) withObject:nil afterDelay:1.0];
+          
             
         } else {
             
@@ -154,21 +153,7 @@
 -(void)spotlightSearch{
     
     if(IS_IOS9_OR_GREATER){
-        
-//        CSSearchableItemAttributeSet *searchableItemAttributeSet = [[CSSearchableItemAttributeSet alloc] initWithItemContentType:@"com.gamingapp.starwars"];
-//        searchableItemAttributeSet.contentDescription = @"StarWars";
-//        searchableItemAttributeSet.title = @"StarWars";
-//        searchableItemAttributeSet.displayName = @"StarWars Games";
-//        searchableItemAttributeSet.keywords = @[@"StarWars",@"Play StarWars"];
-//        UIImage *thumbnail = [UIImage imageNamed:@"starwars_icon"];
-//        searchableItemAttributeSet.thumbnailData = UIImageJPEGRepresentation(thumbnail, 0.7);
-//        
-//        CSSearchableItem *searchableItem = [[CSSearchableItem alloc] initWithUniqueIdentifier:@"com.gamingapp.starwars"
-//                                                                             domainIdentifier:@"com.gamingapps.spacegames"
-//                                                                                 attributeSet:searchableItemAttributeSet];
-//        
-        
-        
+
         NSMutableArray *searchableItems = [NSMutableArray array];
         int counter = 0;
         
@@ -191,7 +176,6 @@
             
             [searchableItems addObject:searchableItem];
             counter++;
-            NSLog (@"Counter %d", counter);
         }
         
         CSSearchableIndex *defaultSearchableIndex = [CSSearchableIndex defaultSearchableIndex];
@@ -207,7 +191,8 @@
 
 - (void)reloadData
 {
-    // Reload table data
+    
+
     [self.tableView reloadData];
     
     if (self.refreshControl) {

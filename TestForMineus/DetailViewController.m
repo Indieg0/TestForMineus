@@ -100,7 +100,4 @@
     return networkStatus != NotReachable;
 }
 
-
-
-
 @end
